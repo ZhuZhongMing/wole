@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.mqtt.mapper.MbpOrderlistMapper">
+
+	<delete id="deleteByMainId" parameterType="java.lang.String">
+		DELETE 
+		FROM  mbp_orderlist 
+		WHERE
+			 order_id = #{mainId} 	</delete>
+	
+	<select id="selectByMainId" parameterType="java.lang.String" resultType="org.jeecg.modules.mqtt.entity.MbpOrderlist">
+		SELECT * 
+		FROM  mbp_orderlist
+		WHERE
+			 order_id = #{mainId} 	</select>
+	<!--订单明细-通过主表ID查询，生成对应的生产计划明细-->
+    <select id="queryListToPlan" resultType="org.jeecg.modules.mqtt.vo.PlanVO" parameterType="java.lang.String">
+		SELECT material_id as materialId, order_num as number
+		FROM mbp_orderlist
+		WHERE order_id = #{id}
+	</select>
+</mapper>

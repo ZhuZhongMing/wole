@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.mqtt.mapper.CNCModelMapper">
+
+    <select id="queryAlarmByEId" resultType="org.jeecg.modules.mqtt.entity.CNCModel" parameterType="org.jeecg.modules.mqtt.entity.CNCModel">
+        SELECT top 10*
+        FROM cnc_model
+        WHERE cncsn = #{cncsn} AND alarmnum != 0
+    </select>
+
+
+    <select id="countCncModel" resultType="org.jeecg.modules.mqtt.entity.CNCModel" parameterType="org.jeecg.modules.mqtt.entity.CNCModel">
+        select
+        top 10 convert(varchar(10),create_time,120) as alarminfo,
+        count(Id) as count
+        from cnc_model
+        WHERE cncsn = #{cncsn}
+        group by convert(varchar(10),create_time,120)
+        ORDER BY convert(varchar(10),create_time,120) DESC
+    </select>
+
+</mapper>

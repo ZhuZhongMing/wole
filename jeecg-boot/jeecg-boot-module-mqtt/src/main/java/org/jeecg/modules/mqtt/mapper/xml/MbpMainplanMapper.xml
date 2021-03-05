@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.mqtt.mapper.MbpMainplanMapper">
+
+	<delete id="deleteByMainId" parameterType="java.lang.String">
+		DELETE 
+		FROM  mbp_mainplan 
+		WHERE
+			 mainplan_abstract_id = #{mainId} 	</delete>
+	
+	<select id="selectByMainId" parameterType="java.lang.String" resultType="org.jeecg.modules.mqtt.entity.MbpMainplan">
+		SELECT * 
+		FROM  mbp_mainplan
+		WHERE
+			 mainplan_abstract_id = #{mainId} 	</select>
+
+	<!--根据主计划id查询明细详情-->
+    <select id="queryListByMainId" resultType="org.jeecg.modules.mqtt.vo.PlanBOMVO" parameterType="org.jeecg.modules.mqtt.entity.MbpMainplan">
+		SELECT m.id as mainplanid, m.mainplan_abstract_id, m.number, p.*
+		FROM mbp_mainplan m, mbp_product_map p
+		WHERE m.mainplan_abstract_id = #{mainplanAbstractId} AND m.material_id = p.id
+	</select>
+
+    <select id="getOrderTitleByIds" resultType="org.jeecg.modules.mqtt.entity.MbpMainplan">
+		SELECT a.id, c.order_title as orderTitle
+		FROM mbp_mainplan a, mbp_mainplanabstract b, mbp_order c
+		WHERE a.mainplan_abstract_id = b.id AND b.order_id = c.id AND a.id in
+		<foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</select>
+</mapper>

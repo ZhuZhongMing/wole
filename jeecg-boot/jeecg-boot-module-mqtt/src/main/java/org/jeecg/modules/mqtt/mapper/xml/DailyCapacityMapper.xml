@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.mqtt.mapper.DailyCapacityMapper">
+
+    <!--按月统计产能-->
+    <select id="sumMonthCapacity" parameterType="java.util.Date" resultType="java.lang.Integer">
+        select sum(count)
+        from daily_capacity
+        where datediff(month, create_time,#{time})=0
+    </select>
+
+    <!--按天统计产能-->
+    <select id="sumDayCapacity" parameterType="java.util.Date" resultType="java.lang.Integer">
+        select sum(count)
+        from daily_capacity
+        where datediff(day, create_time,#{time})=0
+    </select>
+
+    <!--按天统计设备在线状况-->
+    <select id="countDayEquipmentOnline" parameterType="java.util.Date" resultType="java.lang.Integer">
+        SELECT count(equipmentsn)
+        FROM daily_capacity
+        WHERE datediff(day, create_time, #{time}) = 0
+    </select>
+
+    <!--产量对比 根据设备，条件查询-->
+    <select id="groupByEquipment" resultType="org.jeecg.modules.mqtt.vo.DailyCapacityVO" parameterType="org.jeecg.modules.mqtt.vo.DailyCapacityVO">
+        SELECT a.equipmentsn,b.equipment_name,SUM(a.count) as count
+        FROM daily_capacity a, mbp_equipment b
+        WHERE a.equipmentsn = b.id
+        <if test="equipmentsn != null">
+            and a.equipmentsn = #{equipmentsn}
+        </if>
+        <if test="createTime_begin != null">
+            and a.create_time &gt;= #{createTime_begin}
+        </if>
+        <if test="createTime_end != null">
+            and a.create_time &lt;= #{createTime_end}
+        </if>
+        GROUP BY equipmentsn,b.equipment_name
+    </select>
+
+</mapper>
