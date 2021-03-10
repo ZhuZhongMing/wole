@@ -17,7 +17,7 @@
       <dv-border-box-1 class="main-container">
         <div class="mc-top">
           <Top-Left-Cmp ref="topLeftCmp"/>
-          <Top-Middle-Cmp />
+          <Top-Middle-Cmp ref="topMiddleCmp"/>
           <Top-right-Cmp ref="topRightCmp"/>
         </div>
         <div class="mc-bottom">
@@ -175,6 +175,7 @@ export default {
         this.$refs.bRightTable4.getCNCModel4(this.cncmodel)
         this.$refs.topLeftCmp.getCNCModel5(this.cncmodel)
         this.$refs.topRightCmp.getCNCModel6(this.cncmodel)
+        this.$refs.topMiddleCmp.getCNCModel7(this.cncmodel)
         if (this.cncmodel.alarmnum != 0) {
           this.$notification.warning({
             message: '警报提示',

@@ -233,7 +233,6 @@ export default {
     countCncModel () {
       if (this.cncmodel.cncsn) {
         getRequest(this.url.countCncModel, this.cncmodel).then(res => {
-          console.log(res.data.result)
           if (res.data.result) {
             var result = res.data.result
             var x = []
@@ -242,8 +241,6 @@ export default {
               x.push(item.alarminfo)
               y.push(item.count)
             })
-            console.log('x : ' + x)
-            console.log('y : ' + y)
             this.option = {
               xAxis: {
                 data: x,
@@ -279,7 +276,7 @@ export default {
                 axisTick: {
                   show: false
                 },
-                min: 0,
+                min: 0
               },
               series: [
                 {
