@@ -43,4 +43,24 @@ public class DailyCapacityServiceImpl extends ServiceImpl<DailyCapacityMapper, D
         return dailyCapacityMapper.groupByEquipment(dailyCapacityVO);
     }
 
+    @Override
+    public List<DailyCapacity> sumDaily(DailyCapacity dailyCapacity) {
+        return dailyCapacityMapper.sumDaily(dailyCapacity);
+    }
+
+    @Override
+    public Integer sumDailyAll() {
+        return dailyCapacityMapper.sumDailyAll();
+    }
+
+    @Override
+    public List<DailyCapacity> sumDailyDay() {
+        return dailyCapacityMapper.sumDailyDay();
+    }
+
+    @Override
+    public Integer sumDailyToday() {
+        return dailyCapacityMapper.sumDailyToday();
+    }
+
 }

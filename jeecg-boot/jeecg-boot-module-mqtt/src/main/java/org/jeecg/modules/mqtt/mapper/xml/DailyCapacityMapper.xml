@@ -26,8 +26,8 @@
     <!--产量对比 根据设备，条件查询-->
     <select id="groupByEquipment" resultType="org.jeecg.modules.mqtt.vo.DailyCapacityVO" parameterType="org.jeecg.modules.mqtt.vo.DailyCapacityVO">
         SELECT a.equipmentsn,b.equipment_name,SUM(a.count) as count
-        FROM daily_capacity a, mbp_equipment b
-        WHERE a.equipmentsn = b.id
+        FROM daily_capacity a, mbp_dev_equipment b
+        WHERE a.equipmentsn = b.equipment_id
         <if test="equipmentsn != null">
             and a.equipmentsn = #{equipmentsn}
         </if>
@@ -38,6 +38,36 @@
             and a.create_time &lt;= #{createTime_end}
         </if>
         GROUP BY equipmentsn,b.equipment_name
+    </select>
+
+    <select id="sumDaily" resultType="org.jeecg.modules.mqtt.entity.DailyCapacity" parameterType="org.jeecg.modules.mqtt.entity.DailyCapacity">
+        select
+        top 10 convert(varchar(10),create_time,120) as equipmentsn,
+        sum(count) as count
+        from daily_capacity
+        WHERE equipmentsn = #{equipmentsn}
+        group by convert(varchar(10),create_time,120)
+        ORDER BY convert(varchar(10),create_time,120) DESC
+    </select>
+
+    <select id="sumDailyAll" resultType="java.lang.Integer">
+        select sum(count)
+        from daily_capacity
+    </select>
+
+    <select id="sumDailyDay" resultType="org.jeecg.modules.mqtt.entity.DailyCapacity">
+        select
+        top 10 convert(varchar(10),create_time,120) as equipmentsn,
+        sum(count) as count
+        from daily_capacity
+        group by convert(varchar(10),create_time,120)
+        ORDER BY convert(varchar(10),create_time,120) DESC
+    </select>
+
+    <select id="sumDailyToday" resultType="java.lang.Integer">
+        select sum(count)
+        from daily_capacity
+        where datediff(day, create_time,GETDATE())=0
     </select>
 
 </mapper>

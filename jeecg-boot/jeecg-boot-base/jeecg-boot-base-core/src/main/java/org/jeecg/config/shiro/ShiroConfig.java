@@ -76,8 +76,15 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/system/dailyCapacity/sumByEquipment", "anon"); //根据设备查询今日生产数量
         filterChainDefinitionMap.put("/mqtt/cncModel/coutAlarm", "anon"); //根据设备统计警报次数
         filterChainDefinitionMap.put("/mqtt/cncModel/countCncModel", "anon"); // 采集频率 -- 根据设备查询
+        filterChainDefinitionMap.put("/mqtt/cncModel/countCncModelAll", "anon"); // 采集频率
+        filterChainDefinitionMap.put("/mqtt/cncModel/countCncAll", "anon"); // 总次数
+        filterChainDefinitionMap.put("/mqtt/cncModel/countCncToday", "anon"); // 今日次数
         filterChainDefinitionMap.put("/system/dailyCapacity/querySumDayCapacity", "anon");
         filterChainDefinitionMap.put("/system/dailyCapacity/querySumMonthCapacity", "anon");
+        filterChainDefinitionMap.put("/system/dailyCapacity/sumDaily", "anon");
+        filterChainDefinitionMap.put("/system/dailyCapacity/sumDailyDay", "anon");
+        filterChainDefinitionMap.put("/system/dailyCapacity/sumDailyToday", "anon");
+        filterChainDefinitionMap.put("/system/dailyCapacity/sumDailyAll", "anon");
 
         // 配置不会被拦截的链接 顺序判断
         filterChainDefinitionMap.put("/sys/cas/client/validateLogin", "anon"); //cas验证登录

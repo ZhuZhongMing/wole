@@ -26,4 +26,17 @@ public interface CNCModelMapper extends BaseMapper<CNCModel> {
      */
     List<CNCModel> countCncModel(CNCModel cncModel);
 
+    /**
+     * 采集频率
+     * @param
+     * @return
+     */
+    List<CNCModel> countCncModelAll();
+
+    /**
+     * 今日次数
+     * @return
+     */
+    Integer countCncToday();
+
 }

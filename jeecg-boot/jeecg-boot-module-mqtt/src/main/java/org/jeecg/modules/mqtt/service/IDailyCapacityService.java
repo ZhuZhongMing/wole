@@ -43,4 +43,29 @@ public interface IDailyCapacityService extends IService<DailyCapacity> {
      */
     List<DailyCapacityVO> groupByEquipment(DailyCapacityVO dailyCapacityVO);
 
+    /**
+     * 设备生产趋势 -- 根据设备查询
+     * @param dailyCapacity
+     * @return
+     */
+    List<DailyCapacity> sumDaily(DailyCapacity dailyCapacity);
+
+    /**
+     * 总产量
+     * @return
+     */
+    Integer sumDailyAll();
+
+    /**
+     * 设备生产趋势 -- 根据设备查询
+     * @param
+     * @return
+     */
+    List<DailyCapacity> sumDailyDay();
+
+    /**
+     * 今日产量
+     * @return
+     */
+    Integer sumDailyToday();
 }

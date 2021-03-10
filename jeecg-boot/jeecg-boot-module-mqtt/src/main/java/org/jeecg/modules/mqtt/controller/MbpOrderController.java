@@ -152,8 +152,6 @@ public class MbpOrderController {
        // 添加操作之前，获取当前时间记录 - 到毫秒
        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
        String beforeSave = sdf.format(new Date());
-       log.info("before : " + beforeSave);
-
        MbpOrder mbpOrder = new MbpOrder();
        BeanUtils.copyProperties(mbpOrderPage, mbpOrder);
        mbpOrderService.saveMain(mbpOrder, mbpOrderPage.getMbpOrderlistList());

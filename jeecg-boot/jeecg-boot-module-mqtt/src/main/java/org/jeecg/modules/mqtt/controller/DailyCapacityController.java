@@ -41,6 +41,64 @@ public class DailyCapacityController extends JeecgController<DailyCapacity, IDai
    private IDailyCapacityService dailyCapacityService;
 
     /**
+     *  今日产量
+     * @return
+     */
+    @ApiOperation(value = "今日产量", notes = "今日产量")
+    @GetMapping(value = "/sumDailyToday")
+    public Result<?> sumDailyToday() {
+        Result<Integer> result = new Result<Integer>();
+        Integer sum = dailyCapacityService.sumDailyToday();
+        result.setResult(sum);
+        return result;
+    }
+
+    /**
+     *  设备生产趋势
+     * @return
+     */
+    @ApiOperation(value = "设备生产趋势", notes = "设备生产趋势")
+    @GetMapping(value = "/sumDailyDay")
+    public Result<?> sumDailyDay() {
+        Result<List<DailyCapacity>> result = new Result<List<DailyCapacity>>();
+        List<DailyCapacity> list = dailyCapacityService.sumDailyDay();
+        result.setResult(list);
+        return result;
+    }
+
+    /**
+     *  总产量
+     * @return
+     */
+    @ApiOperation(value = "总产量", notes = "总产量")
+    @GetMapping(value = "/sumDailyAll")
+    public Result<?> sumDailyAll() {
+        Result<DailyCapacity> result = new Result<DailyCapacity>();
+        Integer sum = dailyCapacityService.sumDailyAll();
+        DailyCapacity dailyCapacity = new DailyCapacity();
+        int count = dailyCapacityService.count();
+        // 总数量
+        dailyCapacity.setCount(sum);
+        // 总条数
+        dailyCapacity.setTaskcount(count);
+        result.setResult(dailyCapacity);
+        return result;
+    }
+
+    /**
+     *  设备生产趋势 -- 根据设备查询
+     * @return
+     */
+    @ApiOperation(value = "设备生产趋势 -- 根据设备查询", notes = "设备生产趋势 -- 根据设备查询")
+    @GetMapping(value = "/sumDaily")
+    public Result<?> sumDaily(DailyCapacity dailyCapacity) {
+        Result<List<DailyCapacity>> result = new Result<List<DailyCapacity>>();
+        List<DailyCapacity> list = dailyCapacityService.sumDaily(dailyCapacity);
+        result.setResult(list);
+        return result;
+    }
+
+    /**
      * 生产数量 -- 根据设备查询今日生产数量
      * @return
      */

@@ -35,7 +35,7 @@ public class DailyCapacity {
 	/**设备编号*/
 	@Excel(name = "设备编号", width = 15)
     @ApiModelProperty(value = "设备编号")
-	@Dict(dictTable = "mbp_equipment", dicText = "equipment_name", dicCode = "id")
+	@Dict(dictTable = "mbp_dev_equipment", dicText = "equipment_name", dicCode = "equipment_id")
 	private String equipmentsn;
 	/**产能数量-需同昨日设备上传实际数量做对比*/
 	@Excel(name = "产能数量-需同昨日设备上传实际数量做对比", width = 15)

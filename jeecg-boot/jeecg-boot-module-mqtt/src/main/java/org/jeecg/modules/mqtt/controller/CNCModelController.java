@@ -43,6 +43,32 @@ public class CNCModelController extends JeecgController<CNCModel, ICNCModelServi
     private ICNCModelService service;
 
     /**
+     *  今日次数
+     * @return
+     */
+    @ApiOperation(value = "今日次数", notes = "今日次数")
+    @GetMapping(value = "/countCncToday")
+    public Result<?> countCncToday() {
+        Result<Integer> result = new Result<Integer>();
+        Integer count = service.countCncToday();
+        result.setResult(count);
+        return result;
+    }
+
+    /**
+     * 总次数
+     * @return
+     */
+    @ApiOperation(value = "总次数", notes = "总次数")
+    @GetMapping(value = "/countCncAll")
+    public Result<?> countCncAll() {
+        Result<Integer> result = new Result<Integer>();
+        Integer count = service.count();
+        result.setResult(count);
+        return result;
+    }
+
+    /**
      *  采集频率 -- 根据设备查询
      * @return
      */
@@ -51,6 +77,19 @@ public class CNCModelController extends JeecgController<CNCModel, ICNCModelServi
     public Result<?> countCncModel(CNCModel cncModel) {
         Result<List<CNCModel>> result = new Result<List<CNCModel>>();
         List<CNCModel> list = service.countCncModel(cncModel);
+        result.setResult(list);
+        return result;
+    }
+
+    /**
+     *  采集频率
+     * @return
+     */
+    @ApiOperation(value = "采集频率", notes = "采集频率")
+    @GetMapping(value = "/countCncModelAll")
+    public Result<?> countCncModelAll() {
+        Result<List<CNCModel>> result = new Result<List<CNCModel>>();
+        List<CNCModel> list = service.countCncModelAll();
         result.setResult(list);
         return result;
     }

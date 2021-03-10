@@ -31,6 +31,16 @@ public class CNCModelServiceImpl extends ServiceImpl<CNCModelMapper, CNCModel> i
         return cncModelMapper.countCncModel(cncModel);
     }
 
+    @Override
+    public List<CNCModel> countCncModelAll() {
+        return cncModelMapper.countCncModelAll();
+    }
+
+    @Override
+    public Integer countCncToday() {
+        return cncModelMapper.countCncToday();
+    }
+
     /**
      * 插入一条记录（选择字段，策略插入）
      *
