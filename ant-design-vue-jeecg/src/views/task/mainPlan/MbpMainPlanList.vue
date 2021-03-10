@@ -28,7 +28,7 @@
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
             <a-form-item label="设备名称">
               <j-dict-select-tag v-model="queryParam.equipmentId" placeholder="请选择设备"
-                                 dictCode="mbp_equipment,equipment_name,id"/>
+                                 dictCode="mbp_dev_equipment,equipment_name,equipment_id"/>
             </a-form-item>
           </a-col>
           <template v-if="toggleSearchStatus">

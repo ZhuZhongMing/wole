@@ -5,7 +5,7 @@
         <a-row>
           <a-col :span="12">
             <a-form-item label="设备编号" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <j-dict-select-tag type="list" v-decorator="['equipmentsn']" :trigger-change="true" dictCode="mbp_equipment,equipment_name,id" placeholder="请选择设备编号"/>
+              <j-dict-select-tag type="list" v-decorator="['equipmentsn']" :trigger-change="true" dictCode="mbp_dev_equipment,equipment_name,equipment_id" placeholder="请选择设备编号"/>
             </a-form-item>
           </a-col>
           <a-col :span="12">
@@ -48,7 +48,7 @@
   import pick from 'lodash.pick'
   import { validateDuplicateValue } from '@/utils/util'
   import JFormContainer from '@/components/jeecg/JFormContainer'
-  import JDate from '@/components/jeecg/JDate'  
+  import JDate from '@/components/jeecg/JDate'
   import JDictSelectTag from "@/components/dict/JDictSelectTag"
 
   export default {
@@ -192,7 +192,7 @@
               that.confirmLoading = false;
             })
           }
-         
+
         })
       },
       popupCallback(row){

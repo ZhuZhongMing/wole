@@ -1,12 +1,12 @@
 <template>
   <div class="page-header-index-wide">
     <a-row :gutter="24">
-      <a-col :sm="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-        <chart-card :loading="loading" title="总销售额" total="￥126,560">
-          <a-tooltip title="指标说明" slot="action">
+      <a-col :sm="24" :md="12" :xl="8" :style="{ marginBottom: '24px' }">
+        <chart-card :loading="loading" title="总产量" :total="daily.count | NumberFormat">
+          <a-tooltip title="设备总生产数量" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
-          <div>
+          <!--<div>
             <trend flag="up" style="margin-right: 16px;">
               <span slot="term">周同比</span>
               12%
@@ -15,33 +15,33 @@
               <span slot="term">日同比</span>
               11%
             </trend>
-          </div>
-          <template slot="footer">日均销售额<span>￥ 234.56</span></template>
+          </div>-->
+          <template slot="footer">日均产量&nbsp;&nbsp;&nbsp;<span v-text="daySum"></span></template>
         </chart-card>
       </a-col>
-      <a-col :sm="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-        <chart-card :loading="loading" title="订单量" :total="8846 | NumberFormat">
-          <a-tooltip title="指标说明" slot="action">
+      <a-col :sm="24" :md="12" :xl="8" :style="{ marginBottom: '24px' }">
+        <chart-card :loading="loading" title="产量" total="">
+          <a-tooltip title="设备日生产数量" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
           <div>
-            <mini-area />
+            <mini-area :y="'产量'" :dataSource="areaSource"/>
           </div>
-          <template slot="footer">日订单量<span> {{ '1234' | NumberFormat }}</span></template>
+          <template slot="footer">今日产量&nbsp;&nbsp;&nbsp;<span v-text="todaySum"></span></template>
         </chart-card>
       </a-col>
-      <a-col :sm="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-        <chart-card :loading="loading" title="支付笔数" :total="6560 | NumberFormat">
-          <a-tooltip title="指标说明" slot="action">
+      <a-col :sm="24" :md="12" :xl="8" :style="{ marginBottom: '24px' }">
+        <chart-card :loading="loading" title="采集次数" :total="cncAll | NumberFormat">
+          <a-tooltip title="设备数据采集次数" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
           <div>
-            <mini-bar :height="40" />
+            <mini-bar :height="40" :dataSource="barSource"/>
           </div>
-          <template slot="footer">转化率 <span>60%</span></template>
+          <template slot="footer">今日采集次数&nbsp;&nbsp;&nbsp; <span v-text="cncToday"></span></template>
         </chart-card>
       </a-col>
-      <a-col :sm="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
+      <!--<a-col :sm="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
         <chart-card :loading="loading" title="运营活动效果" total="78%">
           <a-tooltip title="指标说明" slot="action">
             <a-icon type="info-circle-o" />
@@ -60,10 +60,10 @@
             </trend>
           </template>
         </chart-card>
-      </a-col>
+      </a-col>-->
     </a-row>
 
-    <a-card :loading="loading" :bordered="false" :body-style="{padding: '0'}">
+    <!--<a-card :loading="loading" :bordered="false" :body-style="{padding: '0'}">
       <div class="salesCard">
         <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}">
           <div class="extra-wrapper" slot="tabBarExtraContent">
@@ -97,7 +97,7 @@
           </a-tab-pane>
         </a-tabs>
       </div>
-    </a-card>
+    </a-card>-->
 
     <a-row>
       <a-col :span="24">
@@ -149,6 +149,7 @@
 
   import Trend from '@/components/Trend'
   import { getLoginfo,getVisitInfo } from '@/api/api'
+  import { getAction } from '@/api/manage'
 
   const rankList = []
   for (let i = 0; i < 7; i++) {
@@ -181,6 +182,13 @@
     },
     data() {
       return {
+        areaSource: [],
+        barSource: [],
+        daily: {},
+        daySum: 0,
+        todaySum: 0,
+        cncAll: 0,
+        cncToday: 0,
         loading: true,
         center: null,
         rankList,
@@ -188,6 +196,14 @@
         loginfo:{},
         visitFields:['ip','visit'],
         visitInfo:[],
+        url: {
+          sumDailyAll: '/system/dailyCapacity/sumDailyAll',
+          sumDailyToday: '/system/dailyCapacity/sumDailyToday',
+          sumDailyDay: '/system/dailyCapacity/sumDailyDay',
+          countCncModelAll: '/mqtt/cncModel/countCncModelAll',
+          countCncAll: '/mqtt/cncModel/countCncAll',
+          countCncToday: '/mqtt/cncModel/countCncToday'
+        },
         indicator: <a-icon type="loading" style="font-size: 24px" spin />
       }
     },
@@ -212,6 +228,69 @@
              this.visitInfo = res.result;
            }
          })
+        this.sumDailyAll()
+        this.sumDailyDay()
+        this.sumDailyToday()
+        this.countCncModelAll()
+        this.countCncAll()
+        this.countCncToday()
+      },
+      sumDailyAll() {
+        getAction(this.url.sumDailyAll,null).then((res)=>{
+          if(res.success){
+            this.daily = res.result;
+            // this.daily.count = res.result.count.toString()
+            this.daySum = parseInt((this.daily.count / this.daily.taskcount * 2))
+          }
+        });
+      },
+      sumDailyToday() {
+        getAction(this.url.sumDailyToday,null).then((res)=>{
+          if(res.success){
+            this.todaySum = res.result.toString()
+          }
+        });
+      },
+      sumDailyDay() {
+        getAction(this.url.sumDailyDay,null).then((res)=>{
+          if(res.success){
+            // this.daily = res.result;
+            res.result.forEach((item, index) => {
+                this.areaSource.push({
+                  x: item.equipmentsn,
+                  y: item.count
+                })
+            })
+            this.daySum = parseInt((this.daily.count / this.daily.taskcount * 2))
+          }
+        });
+      },
+      countCncModelAll() {
+        getAction(this.url.countCncModelAll,null).then((res)=>{
+          if(res.success){
+            // this.daily = res.result;
+            res.result.forEach((item, index) => {
+                this.barSource.push({
+                  x: item.alarminfo,
+                  y: item.count
+                })
+            })
+          }
+        });
+      },
+      countCncAll() {
+        getAction(this.url.countCncAll,null).then((res)=>{
+          if(res.success){
+            this.cncAll = res.result.toString()
+          }
+        });
+      },
+      countCncToday() {
+        getAction(this.url.countCncToday,null).then((res)=>{
+          if(res.success){
+            this.cncToday = res.result.toString()
+          }
+        });
       },
     }
   }

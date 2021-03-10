@@ -201,7 +201,7 @@
               title: '设备编号',
               key: 'equipmentId',
               type: FormTypes.select,
-              dictCode:"mbp_equipment,equipment_name,id",
+              dictCode:"mbp_dev_equipment,equipment_name,equipment_id",
               width:"200px",
               placeholder: '请输入${title}',
               validateRules: [{ required: true, message: '${title}不能为空' }],

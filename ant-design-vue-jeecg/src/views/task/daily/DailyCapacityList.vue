@@ -6,7 +6,7 @@
         <a-row :gutter="24">
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
             <a-form-item label="设备名称">
-              <j-dict-select-tag type="list" v-model="queryParam.equipmentsn" dictCode="mbp_equipment,equipment_name,id" placeholder="请选择设备编号"/>
+              <j-dict-select-tag type="list" v-model="queryParam.equipmentsn" dictCode="mbp_dev_equipment,equipment_name,equipment_id" placeholder="请选择设备编号"/>
             </a-form-item>
           </a-col>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
